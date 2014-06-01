@@ -1,0 +1,38 @@
+.item-caption {
+	text-align: center;
+	font-size: 60px;
+	color: #1f90c8;
+	display: block;
+}
+
+.item-caption-text {
+	text-align: center;
+	font-size: 30px;
+	color: #777;
+	display: block;
+}
+
+.item-heading
+{
+	text-align: left;
+	font-size: 30px;
+	color: #1f90c8;
+}
+
+.item-heading-text{
+	text-align: center;
+	font-size: 15px;
+	color: #777;
+}
+
+.table-no-border>thead>tr>th, 
+.table-no-border>tbody>tr>th, 
+.table-no-border>tfoot>tr>th, 
+.table-no-border>thead>tr>td, 
+.table-no-border>tbody>tr>td, 
+.table-no-border>tfoot>tr>td {
+  border-top: none;
+  padding-top: 35px; 
+}
+
+

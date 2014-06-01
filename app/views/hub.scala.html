@@ -1,0 +1,149 @@
+@(hubSoftware: Map[String, Array[Float]], phoneMaker: Map[String, Map[String,Integer]], phone: Float, gadget: Float, log: Float, hub: Integer)
+@total =  @{
+        	var total = 0:Float;
+        	for((key,value) <- phoneMaker){
+        		for((k,v) <- value){
+        			total += v;
+    			}	
+        	}
+        	total
+        }
+@main("hubs"){
+<div class="row">
+	<table class="table table-no-border table-cell-padding col-sm-12 col-xs-12">
+		<tr>
+			<td rowspan="2">
+				<span class="item-caption">@hub</span>
+				<span class="item-caption-text">Hubs</span>
+			</td>
+			
+			<td>
+				<span class="item-heading">@phone</span>
+				<span class="item-heading-text">Phone</span>
+			</td>
+			
+			<td>
+				<span class="item-heading">@log</span>
+				<span class="item-heading-text">Log</span>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<span class="item-heading">@gadget</span>
+				<span class="item-heading-text">Gadget</span>
+			</td>
+			
+			<td>
+				<span class="item-heading">@gadget</span>
+				<span class="item-heading-text">Gadget</span>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="row">
+
+	<div class="col-sm-6 col-xs-12" id="sw_ver_container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+	<div class="col-sm-6 col-xs-12" id="phone_maker_container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+</div>
+<script>
+$(function () { 
+	$('#sw_ver_container').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: 'Hub software version distribution'
+        },
+        tooltip: {
+    	    pointFormat: '{series.name}: <b>{point.q}</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Quantity',
+            data: [
+                @for((key,value) <- hubSoftware){
+	                {
+	                	name: 'Version @key',   
+	                	y: @value(0),
+	                	q: @value(1)
+	                },
+        		}
+            ]
+        }]
+    });
+});
+
+
+$(function () { 
+	$('#phone_maker_container').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: 'Smartphone manufacturer distribution'
+        },
+        tooltip: {
+    	    pointFormat: '{series.name}: <b>{point.q}</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Quantity',
+            data: [
+                @for((key,value) <- phoneMaker){ 
+	                {
+	                	name: '@key',   
+	                	y: @{
+	                		var q = 0:Float;
+	                		
+	                		for((k,v) <- value){
+	                			q += v;
+                			}	
+	                		q = q / total;
+	                		q},
+	                	q:@{
+	                		var q = 0:Float;
+	                		
+	                		for((k,v) <- value){
+	                			q += v;
+                			}	
+	                		q}
+	                },
+        		}
+                
+            ]
+        }]
+    });
+});
+
+</script>
+}
