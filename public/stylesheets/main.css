@@ -5,6 +5,10 @@
 	display: block;
 }
 
+body {
+font-family: Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
+}
+
 .item-caption-text {
 	text-align: center;
 	font-size: 30px;
@@ -35,4 +39,8 @@
   padding-top: 35px; 
 }
 
+.row{
+	padding-top:30px;
+	padding-bottom:30px;
+}
 
