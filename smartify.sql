@@ -154,6 +154,16 @@ CREATE TABLE IF NOT EXISTS `smartify`.`hub_log` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `smartify`.`test`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `smartify`.`test` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  `time` DATETIME NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

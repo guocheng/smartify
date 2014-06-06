@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+
 import models.Gadget;
 import models.GadgetLog;
 import models.Hub;
@@ -28,6 +29,13 @@ public class Util
 		GadgetFunc,
 		GadgetCommMethod,
 		PhoneModel
+	}
+	
+	
+	public static int getHourSegment(int hr)
+	{
+		
+		return hr/2;
 	}
 	
 	public static String getIPaddress()
@@ -55,6 +63,41 @@ public class Util
         }
     }
     
+    public static void printNestedMap(Map<String, Map<String, Integer[]>> mp) 
+    {
+        for(String key:mp.keySet())
+        {
+        	System.out.print(key + " = ");
+        	
+        	Map<String, Integer[]> innerMap = mp.get(key);
+        	
+        	System.out.print("{");
+        	for(String k:innerMap.keySet())
+        	{
+        		System.out.print(k + " = ");
+        		
+        		Integer[] ints = innerMap.get(k);
+        		
+        		System.out.print("[");
+        		
+        		for(int i=0;i<ints.length;i++)
+        		{
+        			if(i!=ints.length - 1)
+        			{
+        				System.out.print(ints[i]+",");
+        			}
+        			else 
+        			{
+        				System.out.print(ints[i]);
+					}
+        		}
+        		
+        		System.out.print("]");
+        	}
+        	System.out.println("} ");
+        }
+    }
+    
     public static void fillMap(Map<String, Integer> map, String key)
 	{		
 		if(!map.containsKey(key))
@@ -67,7 +110,15 @@ public class Util
 			map.put(key, i);
 		}	
 	}
+   
     
+    /**
+     * @param type
+     * @return return type <String, Map<String, Integer>> like the following 
+     * 			lock = {后门=1, 家门=2} 
+     * 			humidifier = {客厅=1, 卧室=2}
+     * 			switch = {客厅灯=3, 厕所灯=1}
+     */
     public static Map<String, Map<String, Integer>> getNestedDist(NestedDistType type)
 	{
 		List<Gadget> gadgets = null;
@@ -213,5 +264,29 @@ public class Util
         }
         
         return results;
+    }
+    
+    public static Map<String, Integer> getDistributionInt(List list, DistType type)
+    {
+    	Iterator itor = list.iterator();
+    	Map<String, Integer> maps = new HashMap<String, Integer>();
+    	
+    	while(itor.hasNext())
+    	{
+    		String key = null;
+    		Object obj = itor.next();
+    		
+    		switch(type)
+    		{
+	    		case HubVersion: key = ((Hub)obj).getSoftwareVer(); 	break;
+	    		case GadgetType: key = ((Gadget)obj).getType();			break;
+	    		case PhoneMaker: key = ((Phone)obj).getManufacturer();	break;
+				default: break; 
+    		}
+    		
+    		Util.fillMap(maps, key);
+    	}
+    	
+    	return maps;
     }
 }

@@ -2,6 +2,7 @@ logs
 project/project
 project/target
 public/download
+public/javascripts/OLD
 target
 tmp
 .history

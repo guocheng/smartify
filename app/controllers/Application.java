@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.File;
+import java.util.Map;
 
 import models.Gadget;
 import models.Hub;
@@ -58,12 +59,12 @@ public class Application extends Controller
     	System.out.println("** Phone Distribution:");
     	Util.printMap(Util.getNestedDist(NestedDistType.PhoneModel));
     	
-    	return ok(hub.render(Util.getDistribution(Hub.findAll(), DistType.HubVersion), 
+    	return ok(hub.render(Util.getDistributionInt(Hub.findAll(), DistType.HubVersion), 
     			Util.getNestedDist(NestedDistType.PhoneModel), 
     			Hub.getAvg(Hub.ListType.Phone),
     			Hub.getAvg(Hub.ListType.Gadget),
-    			Hub.getAvg(Hub.ListType.HubLog),
-    			Hub.findAll().size()
+    			Hub.findAll().size(),
+                Gadget.findAll().size()
     			));
     	//return ok(Json.toJson(hubs));
     }
@@ -71,16 +72,23 @@ public class Application extends Controller
 
     public static Result gadget()
     {
-    	System.out.println("Total # of gadgets: " + Gadget.findAll().size());
-    	System.out.println("** Name Distribution:");
-    	Util.printMap(Util.getNestedDist(NestedDistType.GadgetName));
-    	System.out.println("** Function Distribution:");
-    	Util.printMap(Util.getNestedDist(NestedDistType.GadgetFunc));
-    	System.out.println("** Connection Distribution:");
-    	Util.printMap(Util.getNestedDist(NestedDistType.GadgetCommMethod));
+//    	System.out.println("Total # of gadgets: " + Gadget.findAll().size());
+//    	System.out.println("** Name Distribution:");
+//    	Util.printMap(Util.getNestedDist(NestedDistType.GadgetName));
+//    	System.out.println("** Function Distribution:");
+//    	Util.printMap(Util.getNestedDist(NestedDistType.GadgetFunc));
+//    	System.out.println("** Connection Distribution:");
+//    	Util.printMap(Util.getNestedDist(NestedDistType.GadgetCommMethod));
+//    	System.out.println("** Function Time Distribution");
+//    	Util.printNestedMap(Gadget.getFuncDistribution());
     	
     	
-    	return ok(gadget.render(Util.getDistribution(Gadget.findAll(), DistType.GadgetType)));
+    	return ok(gadget.render(Util.getDistributionInt(Gadget.findAll(), DistType.GadgetType),
+    			Util.getNestedDist(NestedDistType.GadgetName),
+    			Util.getNestedDist(NestedDistType.GadgetFunc),
+    			Util.getNestedDist(NestedDistType.GadgetCommMethod),
+    			Gadget.getFuncDistribution()
+    			));
     }
     
     public static Result getHubUpdateFile()

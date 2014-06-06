@@ -66,24 +66,24 @@ public class Hub extends Model
 		this.hubLogList = hubLogList;
 	}
 
-	public static float getAvg(ListType type)
+	public static String getAvg(ListType type)
 	{
 		List<Hub> hubs = Hub.findAll();
-		
+		float result=0;
 		if(type == ListType.Phone)
 		{
-			return (float)Phone.findAll().size() / hubs.size();
+			result = (float)Phone.findAll().size() / hubs.size();
 		}
 		else if(type == ListType.Gadget)
 		{
-			return (float)Gadget.findAll().size() / hubs.size();
+			result =  (float)Gadget.findAll().size() / hubs.size();
 		}
 		else if(type == ListType.HubLog)
 		{
-			return (float)HubLog.findAll().size() / hubs.size();
+			result =  (float)HubLog.findAll().size() / hubs.size();
 		}
 		
-		return 0;
+		return String.format("%.1f", result);
 	}
 	
 	public List<Gadget> getGadgetList()

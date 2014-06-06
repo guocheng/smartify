@@ -1,4 +1,5 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +11,13 @@ import org.junit.Test;
 
 import controllers.Util;
 import controllers.Util.DistType;
-import play.api.libs.iteratee.internal;
 
 
 public class UtilTest
 {
 
 	@Test
-	public void test()
+	public void testDistribution()
 	{
 		List<Hub> hubs = new ArrayList<Hub>();
 		
@@ -41,6 +41,13 @@ public class UtilTest
 		assertTrue(results.get("1.0")[1].floatValue() == 5);
 		assertTrue(results.get("2.0")[0].floatValue() == 0.5);
 		assertTrue(results.get("2.0")[1].floatValue() == 5);
+	}
+	
+	@Test
+	public void testHourSegment()
+	{
+		assertEquals(5, Util.getHourSegment(11));
+		
 	}
 
 }
