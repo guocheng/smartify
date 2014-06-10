@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.File;
-import java.util.Map;
 
 import models.Gadget;
 import models.Hub;
@@ -19,12 +18,12 @@ import controllers.Util.NestedDistType;
 
 public class Application extends Controller 
 {
-	public final static String HUB_DOWNLOAD_URL = "/Users/cheng/Dev/download/hub/latest"; 
+	public final static String HUB_DOWNLOAD_URL =  play.Play.application().path().getAbsolutePath() + "/public/download/hub/latest"; 
 	public final static String HTTP ="http://";
 	public final static String PORT = "9000";
 	
     public static Result index() {
-        return ok(index.render("Your new application is ready."));
+        return redirect(routes.Application.hub());
     }
     
     //TODO: need to read version number from a xml file
