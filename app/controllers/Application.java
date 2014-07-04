@@ -9,7 +9,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.gadget;
 import views.html.hub;
-import views.html.index;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -18,7 +17,8 @@ import controllers.Util.NestedDistType;
 
 public class Application extends Controller 
 {
-	public final static String HUB_DOWNLOAD_URL =  play.Play.application().path().getAbsolutePath() + "/public/download/hub/latest"; 
+	public final static String HUB_DOWNLOAD_URL =  play.Play.application().path().getAbsolutePath() + "/public/download/hub/latest";
+	public final static String APK_DOWNLOAD_URL =  play.Play.application().path().getAbsolutePath() + "/public/download/apk/latest"; 
 	public final static String HTTP ="http://";
 	public final static String PORT = "9000";
 	
@@ -36,8 +36,8 @@ public class Application extends Controller
     	String ip = Util.getIPaddress();
     	if(ip != null)
     	{
-			result.put("android_url", HTTP + ip + ":" + PORT + "/download/andorid/latest");
-			result.put("hub_url", HTTP + ip +  ":" + PORT + "/download/hub/latest");
+			result.put("android_url", HTTP + ip + ":" + PORT + "/download/apk");
+			result.put("hub_url", HTTP + ip +  ":" + PORT + "/download/hub");
 	    	return ok(result);
     	}
     	else 
@@ -90,9 +90,18 @@ public class Application extends Controller
     			));
     }
     
-    public static Result getHubUpdateFile()
+    public static Result getHubUpdateFile(String type)
     {
-    	File folder = new File(HUB_DOWNLOAD_URL);
+    	File folder = null;
+    	if(type.contains("hub"))
+    	{
+    		folder = new File(HUB_DOWNLOAD_URL);
+    	}
+    	else if(type.contains("apk"))
+    	{
+    		folder = new File(APK_DOWNLOAD_URL);
+    	}
+    	
     	File[] listOfFiles = folder.listFiles();
     	if(listOfFiles.length == 1)
     	{
@@ -100,6 +109,22 @@ public class Application extends Controller
     		// content-disposition can be omitted as Play will set the correct file type & name when sending
     		// a file object back as response
     		//response().setHeader("Content-disposition","attachment; filename="+listOfFiles[0].getName());
+    		return ok(listOfFiles[0]);
+    		//return ok();
+    	}
+    	else 
+    	{
+			return internalServerError();	
+		}
+    }
+    
+    public static Result getApk()
+    {
+    	File folder = new File(APK_DOWNLOAD_URL);
+    	File[] listOfFiles = folder.listFiles();
+    	if(listOfFiles.length == 1)
+    	{
+    		response().setContentType("application/zip");
     		return ok(listOfFiles[0]);
     		//return ok();
     	}
