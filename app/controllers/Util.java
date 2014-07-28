@@ -1,13 +1,15 @@
 package controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 
 import models.Gadget;
 import models.GadgetLog;
@@ -288,5 +290,33 @@ public class Util
     	}
     	
     	return maps;
+    }
+    
+    public static float getFileSize(String filename)  
+    {
+		File f = new File(filename);
+		return f.length();
+    }
+    
+    public static String getChecksum(String filename) throws Exception
+    {
+    	MessageDigest md = MessageDigest.getInstance("SHA-1");
+        FileInputStream fis = new FileInputStream(filename);
+ 
+        byte[] dataBytes = new byte[1024];
+ 
+        int nread = 0; 
+        while ((nread = fis.read(dataBytes)) != -1) {
+          md.update(dataBytes, 0, nread);
+        };
+        fis.close();
+        byte[] mdbytes = md.digest();
+ 
+        //convert the byte to hex format method 1
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < mdbytes.length; i++) {
+          sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+        }
+        return sb.toString();
     }
 }

@@ -27,7 +27,7 @@ public class Application extends Controller
     }
     
     //TODO: need to read version number from a xml file
-    public static Result getVersion()
+    public static Result getVersion() throws Exception
     {
     	ObjectNode result = Json.newObject();
     	result.put("android", "2.0");
@@ -38,6 +38,11 @@ public class Application extends Controller
     	{
 			result.put("android_url", HTTP + ip + ":" + PORT + "/download/apk");
 			result.put("hub_url", HTTP + ip +  ":" + PORT + "/download/hub");
+	    	File folder = new File(HUB_DOWNLOAD_URL);
+	    	String filename = folder.listFiles()[0].getAbsolutePath();
+	    	
+			result.put("hub_file_size", Util.getFileSize(filename));
+			result.put("hub_file_checksum", Util.getChecksum(filename));
 	    	return ok(result);
     	}
     	else 

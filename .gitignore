@@ -3,7 +3,8 @@ project/project
 project/target
 public/download
 public/javascripts/OLD
-target
+.target/
+target/
 tmp
 .history
 dist
@@ -15,3 +16,8 @@ dist
 /.project
 /RUNNING_PID
 /.settings
+/.target
+/bin
+bin/
+.settings/
+.DS_Store

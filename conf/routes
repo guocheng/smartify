@@ -8,6 +8,7 @@ GET		/version					controllers.Application.getVersion()
 GET		/hub						controllers.Application.hub()				
 GET		/gadget						controllers.Application.gadget()	
 GET		/download/:type				controllers.Application.getHubUpdateFile(type: String)
+GET		/download/apk.apk			controllers.Application.getApk()
 
 
 # Map static resources from the /public folder to the /assets URL path
