@@ -1,9 +1,12 @@
 package controllers;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,6 +21,7 @@ import models.Phone;
 
 public class Util
 {
+	public final static String VERSIONS_FILE_PATH =  "/home/pi/download/versions";
 	public enum DistType
 	{
 		HubVersion,
@@ -31,6 +35,35 @@ public class Util
 		GadgetFunc,
 		GadgetCommMethod,
 		PhoneModel
+	}
+	
+	// return String[], String[0] = hub version, String[1] = apk version
+	public static String[] getVersions() throws Exception
+	{
+		FileInputStream f = new FileInputStream(VERSIONS_FILE_PATH);
+		BufferedReader br = new BufferedReader(new InputStreamReader(f, Charset.forName("UTF-8")));
+		
+		String line;
+		String[] result = new String[2];
+		
+		while ((line = br.readLine()) != null) 
+		{
+		    String[] split = line.split(":");
+		    if(split[0].trim().toLowerCase().equals("hub"))
+		    {
+		    	result[0] = split[1].trim().toLowerCase();
+		    }
+		    else if(split[0].trim().toLowerCase().equals("apk"))
+		    {
+		    	result[1] =   split[1].trim().toLowerCase();
+		    }
+		}
+		
+		br.close();
+		br = null;
+		f = null;
+		
+		return result;
 	}
 	
 	

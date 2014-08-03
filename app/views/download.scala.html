@@ -1,0 +1,19 @@
+@scripts = {
+	<script>
+	$(document).ready(function() {
+		var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+		var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+		console.log("Width = " + w + " Height = " + h);
+	});
+	</script>
+}
+
+@empty("download", scripts){
+<div>
+	<img src="@routes.Assets.at("images/up_arrow.png")" style="float:right">
+	<p style="font-size:36px;padding-top: 20px;text-align:center">
+	请选择
+	<img src="@routes.Assets.at("images/open.png")" style="vertical-align:bottom">
+	</p>
+</div>
+}
